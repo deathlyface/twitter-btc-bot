@@ -41,7 +41,7 @@ api = tweepy.API(auth)
 client = Client()
 
 # Get Price Function
-def price():
+def get_price():
     klines = client.get_klines(symbol=handler.symbol.upper(), interval=handler.interval)
     price = klines[-1][4]
     return price
@@ -53,7 +53,7 @@ while True:
 
     # Tweet every time the minute is 00
     if now.minute == 00:
-        price = price()
+        price = get_price()
         analysis = handler.get_analysis()
 
         # Emoji
@@ -65,7 +65,7 @@ while True:
         last_price = float(price)
 
         # You can change #btc to other crypto if you like to.
-        tweet = "Hourly #btc Analysis (BETA) \n\nPrice ${}: {}\n\nAnalysis: {}\nSell: {}\nNeutral: {}\nBuy: {}\n\nSource: Tradingview and Binance\n**TRADE AT YOUR OWN RISK**\n\nOpen-source crypto analysis bot (github deathlyface/twitter-btc-bot)".format(emoji, float(price), analysis[0], analysis[1], analysis[2], analysis[3])
+        tweet = "Hourly #btc Analysis (BETA) \n\nPrice {}: ${}\n\nAnalysis: {}\nSell: {}\nNeutral: {}\nBuy: {}\n\nSource: Tradingview and Binance\n**TRADE AT YOUR OWN RISK**\n\nOpen-source crypto analysis bot (github deathlyface/twitter-btc-bot)".format(emoji, float(price), analysis[0], analysis[1], analysis[2], analysis[3])
         api.update_status(tweet)
 
         # Make sure it doesn't tweet again that same minute
